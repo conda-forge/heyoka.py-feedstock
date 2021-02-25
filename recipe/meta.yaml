@@ -27,6 +27,7 @@ requirements:
     - pybind11-abi
     - heyoka
     - boost-cpp
+    - fmt
     - numpy
     - mppp  # [linux]
     - gmp   # [linux]
@@ -37,7 +38,7 @@ requirements:
     - mpmath  # [linux]
 
 about:
-  home: https://github.com/bluescarni/heyoka.py
+  home: https://bluescarni.github.io/heyoka.py/
   license: MPL-2.0
   license_file: LICENSE
   summary: Python library for ODE integration via Taylor's method and LLVM
