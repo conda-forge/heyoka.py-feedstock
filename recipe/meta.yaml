@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "0.4.0" %}
-{% set sha256 = "4edd15cf22eb91429c5be7bc3cf47f0a9872fb4ec5f8a55a74b8443d7ec49c11" %}
+{% set version = "0.5.0" %}
+{% set sha256 = "95deff9a3d7eaa2b9a4f9b27bdc19ce2cd69753ebd2aeafd0994383e7e905e86" %}
 
 package:
   name: {{ name|lower }}
@@ -27,6 +27,7 @@ requirements:
     - pybind11-abi
     - heyoka
     - boost-cpp
+    - fmt
     - numpy
     - mppp  # [linux]
     - gmp   # [linux]
@@ -37,7 +38,7 @@ requirements:
     - mpmath  # [linux]
 
 about:
-  home: https://github.com/bluescarni/heyoka.py
+  home: https://bluescarni.github.io/heyoka.py/
   license: MPL-2.0
   license_file: LICENSE
   summary: Python library for ODE integration via Taylor's method and LLVM
