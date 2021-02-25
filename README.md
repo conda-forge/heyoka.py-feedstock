@@ -1,7 +1,7 @@
 About heyoka.py
 ===============
 
-Home: https://github.com/bluescarni/heyoka.py
+Home: https://bluescarni.github.io/heyoka.py/
 
 Package license: MPL-2.0
 
