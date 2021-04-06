@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "0.5.0" %}
-{% set sha256 = "95deff9a3d7eaa2b9a4f9b27bdc19ce2cd69753ebd2aeafd0994383e7e905e86" %}
+{% set version = "0.6.0" %}
+{% set sha256 = "06eba412533d38b88de9bb62a90890d395f6cfcefcaa4a0049dc2a465b4835e1" %}
 
 package:
   name: {{ name|lower }}
@@ -28,6 +28,7 @@ requirements:
     - heyoka
     - boost-cpp
     - fmt
+    - spdlog
     - numpy
     - mppp  # [linux]
     - gmp   # [linux]
