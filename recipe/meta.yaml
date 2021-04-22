@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "0.6.1" %}
-{% set sha256 = "c991728fa49387850a181f697661584bac0ef17604d401c90841de45fe86f8a5" %}
+{% set version = "0.7.0" %}
+{% set sha256 = "d80b94a36fa66c5e2d90d378dd1c0df7390ab86eaefafa353c52de8968add4f0" %}
 
 package:
   name: {{ name|lower }}
@@ -16,7 +16,7 @@ build:
 
 requirements:
   build:
-    - cmake
+    - cmake <3.20
     - {{ compiler('cxx') }}
     - {{ compiler('c') }}
     - clang      # [win]
