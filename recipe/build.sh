@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 
+if [[ "$target_platform" == osx-* ]]; then
+    # Workaround for compile issue on older OSX SDKs.
+    export CXXFLAGS="$CXXFLAGS -D_LIBCPP_DISABLE_AVAILABILITY"
+fi
+
 mkdir build
 cd build
 
