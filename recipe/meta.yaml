@@ -25,7 +25,11 @@ requirements:
     - python
     - pybind11
     - pybind11-abi
-    - heyoka
+    # NOTE: at this time, both heyoka and heyoka.py
+    # are rapidly evolving with frequent API changes,
+    # thus it is better to keep the versions explicitly
+    # in sync for now.
+    - heyoka ={{ version }}
     - boost-cpp
     - fmt
     - spdlog
