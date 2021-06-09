@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "0.9.0" %}
-{% set sha256 = "04317a41d326b3db1548f9161a7929697a9a0c462a3f93da54250de8027e0e79" %}
+{% set version = "0.10.0" %}
+{% set sha256 = "ee48ad7bd8637c1b2a83b8ed6b522a2acd7fd4cc5425cbd51eaba9383fbc9012" %}
 
 package:
   name: {{ name|lower }}
@@ -25,7 +25,11 @@ requirements:
     - python
     - pybind11
     - pybind11-abi
-    - heyoka
+    # NOTE: at this time, both heyoka and heyoka.py
+    # are rapidly evolving with frequent API changes,
+    # thus it is better to keep the versions explicitly
+    # in sync for now.
+    - heyoka >=0.10.0
     - boost-cpp
     - fmt
     - spdlog
@@ -37,6 +41,7 @@ requirements:
     - {{ pin_compatible('numpy') }}
     - python
     - mpmath  # [linux]
+    - sympy
 
 about:
   home: https://bluescarni.github.io/heyoka.py/
