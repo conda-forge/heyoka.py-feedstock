@@ -29,9 +29,11 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka >=0.10.0
+    - heyoka >=0.11.0
     - boost-cpp
-    - fmt
+    # NOTE: this is temporary until the incompatibilites
+    # between spdlog and fmt 8 are solved upstream.
+    - fmt <8
     - spdlog
     - numpy
     - mppp  # [linux]
