@@ -44,6 +44,7 @@ requirements:
     - python
     - mpmath  # [linux and x86]
     - sympy
+    - cloudpickle
 
 about:
   home: https://bluescarni.github.io/heyoka.py/
