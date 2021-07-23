@@ -33,7 +33,7 @@ pybind11_abi:
 python:
 - 3.7.* *_cpython
 spdlog:
-- '1.8'
+- 1.9.0
 target_platform:
 - osx-64
 zip_keys:
