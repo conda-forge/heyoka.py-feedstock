@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "0.11.0" %}
-{% set sha256 = "a5c475b7eb6470f974e4292c4fa94dfc0ecc4c03c56244fd0eb965167dfb3e5d" %}
+{% set version = "0.12.0" %}
+{% set sha256 = "ab03d4c9429919c6093a0b8f6be38ec5e8fee9fa9c0126683d7a31021a49930b" %}
 
 package:
   name: {{ name|lower }}
@@ -21,6 +21,7 @@ requirements:
     - {{ compiler('c') }}
     - clang      # [win]
     - ninja      # [win]
+    - make       # [unix]
   host:
     - python
     - pybind11
@@ -29,20 +30,19 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka >=0.11.0
+    - heyoka >=0.12.0
     - boost-cpp
-    # NOTE: this is temporary until the incompatibilites
-    # between spdlog and fmt 8 are solved upstream.
-    - fmt <8
+    - fmt
     - spdlog
     - numpy
-    - mppp  # [linux]
-    - gmp   # [linux]
-    - mpfr  # [linux]
+    - mppp  # [linux and x86]
+    - gmp   # [linux and x86]
+    - mpfr  # [linux and x86]
   run:
+    - {{ pin_compatible('boost-cpp', max_pin='x.x') }}
     - {{ pin_compatible('numpy') }}
     - python
-    - mpmath  # [linux]
+    - mpmath  # [linux and x86]
     - sympy
 
 about:
