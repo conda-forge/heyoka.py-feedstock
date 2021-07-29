@@ -11,7 +11,7 @@ cxx_compiler:
 fmt:
 - '8'
 numpy:
-- '1.17'
+- '1.18'
 pin_run_as_build:
   boost-cpp:
     max_pin: x.x.x
