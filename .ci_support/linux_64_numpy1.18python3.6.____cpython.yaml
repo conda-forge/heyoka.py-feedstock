@@ -23,7 +23,7 @@ gmp:
 mpfr:
 - '4'
 numpy:
-- '1.17'
+- '1.18'
 pin_run_as_build:
   boost-cpp:
     max_pin: x.x.x
@@ -39,7 +39,7 @@ pin_run_as_build:
 pybind11_abi:
 - '4'
 python:
-- 3.8.* *_cpython
+- 3.6.* *_cpython
 spdlog:
 - 1.9.0
 target_platform:
