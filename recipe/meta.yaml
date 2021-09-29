@@ -34,19 +34,19 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka >=0.14.0
+    - heyoka >=0.15.0
     - boost-cpp
     - fmt
     - spdlog
     - numpy
-    - mppp  # [linux and x86]
-    - gmp   # [linux and x86]
-    - mpfr  # [linux and x86]
+    - mppp  # [linux and (x86 or ppc64le)]
+    - gmp   # [linux and (x86 or ppc64le)]
+    - mpfr  # [linux and (x86 or ppc64le)]
   run:
     - {{ pin_compatible('boost-cpp', max_pin='x.x') }}
     - {{ pin_compatible('numpy') }}
     - python
-    - mpmath  # [linux and x86]
+    - mpmath  # [linux and (x86 or ppc64le)]
     - sympy
     - cloudpickle
 
