@@ -19,8 +19,7 @@ requirements:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
-    - pybind11                               # [build_platform != target_platform and not win]
-    - pybind11 <2.8                          # [build_platform != target_platform and win]
+    - pybind11                               # [build_platform != target_platform]
     - cmake <3.20
     - {{ compiler('cxx') }}
     - {{ compiler('c') }}
@@ -29,8 +28,7 @@ requirements:
     - make       # [unix]
   host:
     - python
-    - pybind11       # [not win]
-    - pybind11 <2.8  # [win]
+    - pybind11
     - pybind11-abi
     # NOTE: at this time, both heyoka and heyoka.py
     # are rapidly evolving with frequent API changes,
