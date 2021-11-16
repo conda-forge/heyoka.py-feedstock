@@ -10,6 +10,8 @@ source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: https://github.com/bluescarni/{{ name }}/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  patches:
+    - win_fix.diff
 
 build:
   number: 1
