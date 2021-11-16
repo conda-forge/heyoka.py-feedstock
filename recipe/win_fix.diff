@@ -28,3 +28,392 @@ index 306388f..1c1fafe 100644
  target_compile_definitions(core PRIVATE "${pybind11_DEFINITIONS}")
  target_compile_options(core PRIVATE
      "$<$<CONFIG:Debug>:${HEYOKA_PY_CXX_FLAGS_DEBUG}>"
+diff --git a/heyoka/core.cpp b/heyoka/core.cpp
+index b456a8b..31b90f0 100644
+--- a/heyoka/core.cpp
++++ b/heyoka/core.cpp
+@@ -79,7 +79,6 @@ PYBIND11_MODULE(core, m)
+ #endif
+ 
+     using namespace pybind11::literals;
+-    using fmt::literals::operator""_format;
+     namespace kw = hey::kw;
+ 
+     m.doc() = "The core heyoka module";
+@@ -555,11 +554,12 @@ PYBIND11_MODULE(core, m)
+         // Convert state and pars to std::vector, after checking
+         // dimensions and shape.
+         if (state_.ndim() != 2) {
+-            heypy::py_throw(PyExc_ValueError,
+-                            "Invalid state vector passed to the constructor of a batch integrator: "
+-                            "the expected number of dimensions is 2, but the input array has a dimension of {}"_format(
+-                                state_.ndim())
+-                                .c_str());
++            heypy::py_throw(
++                PyExc_ValueError,
++                fmt::format("Invalid state vector passed to the constructor of a batch integrator: "
++                            "the expected number of dimensions is 2, but the input array has a dimension of {}",
++                            state_.ndim())
++                    .c_str());
+         }
+ 
+         // Infer the batch size from the second dimension.
+@@ -574,11 +574,13 @@ PYBIND11_MODULE(core, m)
+             auto &pars_arr = *pars_;
+ 
+             if (pars_arr.ndim() != 2 || boost::numeric_cast<std::uint32_t>(pars_arr.shape(1)) != batch_size) {
+-                heypy::py_throw(PyExc_ValueError,
+-                                "Invalid parameter vector passed to the constructor of a batch integrator: "
++                heypy::py_throw(
++                    PyExc_ValueError,
++                    fmt::format("Invalid parameter vector passed to the constructor of a batch integrator: "
+                                 "the expected array shape is (n, {}), but the input array has either the wrong "
+-                                "number of dimensions or the wrong shape"_format(batch_size)
+-                                    .c_str());
++                                "number of dimensions or the wrong shape",
++                                batch_size)
++                        .c_str());
+             }
+             pars = py::cast<std::vector<double>>(pars_arr.attr("flatten")());
+         }
+@@ -587,11 +589,13 @@ PYBIND11_MODULE(core, m)
+             // Times provided.
+             auto &time_arr = *time_;
+             if (time_arr.ndim() != 1 || boost::numeric_cast<std::uint32_t>(time_arr.shape(0)) != batch_size) {
+-                heypy::py_throw(PyExc_ValueError,
+-                                "Invalid time vector passed to the constructor of a batch integrator: "
++                heypy::py_throw(
++                    PyExc_ValueError,
++                    fmt::format("Invalid time vector passed to the constructor of a batch integrator: "
+                                 "the expected array shape is ({}), but the input array has either the wrong "
+-                                "number of dimensions or the wrong shape"_format(batch_size)
+-                                    .c_str());
++                                "number of dimensions or the wrong shape",
++                                batch_size)
++                        .c_str());
+             }
+             auto time = py::cast<std::vector<double>>(time_arr);
+ 
+@@ -703,17 +707,18 @@ PYBIND11_MODULE(core, m)
+                 if (grid.ndim() != 2) {
+                     heypy::py_throw(
+                         PyExc_ValueError,
+-                        "Invalid grid passed to the propagate_grid() method of a batch integrator: "
+-                        "the expected number of dimensions is 2, but the input array has a dimension of {}"_format(
+-                            grid.ndim())
++                        fmt::format("Invalid grid passed to the propagate_grid() method of a batch integrator: "
++                                    "the expected number of dimensions is 2, but the input array has a dimension of {}",
++                                    grid.ndim())
+                             .c_str());
+                 }
+                 if (boost::numeric_cast<std::uint32_t>(grid.shape(1)) != ta.get_batch_size()) {
+-                    heypy::py_throw(PyExc_ValueError,
+-                                    "Invalid grid passed to the propagate_grid() method of a batch integrator: "
+-                                    "the shape must be (n, {}) but the number of columns is {} instead"_format(
+-                                        ta.get_batch_size(), grid.shape(1))
+-                                        .c_str());
++                    heypy::py_throw(
++                        PyExc_ValueError,
++                        fmt::format("Invalid grid passed to the propagate_grid() method of a batch integrator: "
++                                    "the shape must be (n, {}) but the number of columns is {} instead",
++                                    ta.get_batch_size(), grid.shape(1))
++                            .c_str());
+                 }
+ 
+                 // Convert to a std::vector.
+diff --git a/heyoka/long_double_caster.hpp b/heyoka/long_double_caster.hpp
+index ceb1163..03805a7 100644
+--- a/heyoka/long_double_caster.hpp
++++ b/heyoka/long_double_caster.hpp
+@@ -46,13 +46,12 @@ struct type_caster<long double> {
+         assert(PyBuffer_IsContiguous(buffer, 'C'));
+ 
+         if (boost::numeric_cast<std::size_t>(buffer->len) != sizeof(long double)) {
+-            using fmt::literals::operator""_format;
+-
+-            heypy::py_throw(PyExc_RuntimeError,
+-                            ("error while converting a numpy.longdouble to a C++ long double: the size of the bytes "
+-                             "array ({}) does not match the size of the long double type ({})"_format(
+-                                 buffer->len, sizeof(long double)))
+-                                .c_str());
++            heypy::py_throw(
++                PyExc_RuntimeError,
++                (fmt::format("error while converting a numpy.longdouble to a C++ long double: the size of the bytes "
++                             "array ({}) does not match the size of the long double type ({})",
++                             buffer->len, sizeof(long double)))
++                    .c_str());
+         }
+ 
+         auto start = static_cast<const unsigned char *>(buffer->buf);
+diff --git a/heyoka/pickle_wrappers.hpp b/heyoka/pickle_wrappers.hpp
+index 3b8522b..0ec103e 100644
+--- a/heyoka/pickle_wrappers.hpp
++++ b/heyoka/pickle_wrappers.hpp
+@@ -49,8 +49,18 @@ inline py::tuple pickle_getstate_wrapper(const py::object &self)
+ template <typename T>
+ inline std::pair<T, py::dict> pickle_setstate_wrapper(py::tuple state)
+ {
++#if defined(_MSC_VER) && !defined(__clang__)
++
++    // NOTE: MSVC has issues with the other "using"
++    // statement form.
++    using namespace fmt::literals;
++
++#else
++
+     using fmt::literals::operator""_format;
+ 
++#endif
++
+     if (py::len(state) != 2) {
+         py_throw(PyExc_ValueError, ("The state tuple passed to the deserialization wrapper "
+                                     "must have 2 elements, but instead it has {} element(s)"_format(py::len(state)))
+diff --git a/heyoka/taylor_add_jet.cpp b/heyoka/taylor_add_jet.cpp
+index a122885..9038437 100644
+--- a/heyoka/taylor_add_jet.cpp
++++ b/heyoka/taylor_add_jet.cpp
+@@ -60,8 +60,18 @@ void taylor_add_jet_array_check(const Arr &state, const std::optional<Arr> &pars
+                                 std::uint32_t n_params, bool has_time, std::uint32_t order, std::uint32_t tot_n_eq,
+                                 std::uint32_t batch_size)
+ {
++#if defined(_MSC_VER) && !defined(__clang__)
++
++    // NOTE: MSVC has issues with the other "using"
++    // statement form.
++    using namespace fmt::literals;
++
++#else
++
+     using fmt::literals::operator""_format;
+ 
++#endif
++
+     // Distinguish the batch and scalar cases when checking
+     // dimensions and shapes.
+     if (batch_size == 1u) {
+diff --git a/heyoka/taylor_expose_c_output.cpp b/heyoka/taylor_expose_c_output.cpp
+index 5a21ec8..8a48dd5 100644
+--- a/heyoka/taylor_expose_c_output.cpp
++++ b/heyoka/taylor_expose_c_output.cpp
+@@ -64,12 +64,11 @@ template <typename T>
+ void expose_c_output_impl(py::module &m, const std::string &suffix)
+ {
+     using namespace pybind11::literals;
+-    using fmt::literals::operator""_format;
+ 
+     using c_output_t = hey::continuous_output<T>;
+     using array_arg_t = std::conditional_t<std::is_same_v<T, fp_128_t>, py::iterable, py::array_t<T>>;
+ 
+-    const auto name = "continuous_output_{}"_format(suffix);
++    const auto name = fmt::format("continuous_output_{}", suffix);
+ 
+     py::class_<c_output_t> c_out_c(m, name.c_str(), py::dynamic_attr{});
+ 
+@@ -130,10 +129,12 @@ void expose_c_output_impl(py::module &m, const std::string &suffix)
+ 
+                     // Check the shape of tm.
+                     if (tm.ndim() != 1) {
+-                        py_throw(PyExc_ValueError, "Invalid time array passed to a continuous_output object: the "
+-                                                   "number of dimensions must be 1, but it is "
+-                                                   "{} instead"_format(tm.ndim())
+-                                                       .c_str());
++                        py_throw(PyExc_ValueError,
++                                 fmt::format("Invalid time array passed to a continuous_output object: the "
++                                             "number of dimensions must be 1, but it is "
++                                             "{} instead",
++                                             tm.ndim())
++                                     .c_str());
+                     }
+ 
+                     // Compute the number of rows.
+@@ -265,11 +266,10 @@ template <typename T>
+ void expose_c_output_batch_impl(py::module &m, const std::string &suffix)
+ {
+     using namespace pybind11::literals;
+-    using fmt::literals::operator""_format;
+ 
+     using c_output_t = hey::continuous_output_batch<T>;
+ 
+-    const auto name = "continuous_output_batch_{}"_format(suffix);
++    const auto name = fmt::format("continuous_output_batch_{}", suffix);
+ 
+     py::class_<c_output_t> c_out_c(m, name.c_str(), py::dynamic_attr{});
+ 
+@@ -292,18 +292,21 @@ void expose_c_output_batch_impl(py::module &m, const std::string &suffix)
+                 // - (batch_size, ) (i.e., compute for a single time batch), or
+                 // - (n, batch_size) (i.e., compute for a n time batches).
+                 if (tm.ndim() != 1 && tm.ndim() != 2) {
+-                    py_throw(PyExc_ValueError, "Invalid time array passed to a continuous_output_batch object: the "
+-                                               "number of dimensions must be 1 or 2, but it is "
+-                                               "{} instead"_format(tm.ndim())
+-                                                   .c_str());
++                    py_throw(PyExc_ValueError,
++                             fmt::format("Invalid time array passed to a continuous_output_batch object: the "
++                                         "number of dimensions must be 1 or 2, but it is "
++                                         "{} instead",
++                                         tm.ndim())
++                                 .c_str());
+                 }
+ 
+                 if (tm.ndim() == 1) {
+                     // Single time batch.
+                     if (tm.shape(0) != boost::numeric_cast<py::ssize_t>(batch_size)) {
+                         py_throw(PyExc_ValueError,
+-                                 "Invalid time array passed to a continuous_output_batch object: the "
+-                                 "length must be {} but it is {} instead"_format(batch_size, tm.shape(0))
++                                 fmt::format("Invalid time array passed to a continuous_output_batch object: the "
++                                             "length must be {} but it is {} instead",
++                                             batch_size, tm.shape(0))
+                                      .c_str());
+                     }
+ 
+@@ -336,8 +339,9 @@ void expose_c_output_batch_impl(py::module &m, const std::string &suffix)
+                     // Multiple time batches.
+                     if (tm.shape(1) != boost::numeric_cast<py::ssize_t>(batch_size)) {
+                         py_throw(PyExc_ValueError,
+-                                 "Invalid time array passed to a continuous_output_batch object: the "
+-                                 "number of columns must be {} but it is {} instead"_format(batch_size, tm.shape(1))
++                                 fmt::format("Invalid time array passed to a continuous_output_batch object: the "
++                                             "number of columns must be {} but it is {} instead",
++                                             batch_size, tm.shape(1))
+                                      .c_str());
+                     }
+ 
+diff --git a/heyoka/taylor_expose_events.cpp b/heyoka/taylor_expose_events.cpp
+index 58c8c59..6e8bd46 100644
+--- a/heyoka/taylor_expose_events.cpp
++++ b/heyoka/taylor_expose_events.cpp
+@@ -104,12 +104,11 @@ struct ev_callback {
+             try {
+                 return py::cast<Ret>(ret);
+             } catch (const py::cast_error &) {
+-                using fmt::literals::operator""_format;
+-
+-                py_throw(PyExc_TypeError, ("Unable to convert a Python object of type '{}' to the C++ type '{}' "
+-                                           "in the construction of the return value of an event callback"_format(
+-                                               heypy::str(heypy::type(ret)), boost::core::demangle(typeid(Ret).name())))
+-                                              .c_str());
++                py_throw(PyExc_TypeError,
++                         (fmt::format("Unable to convert a Python object of type '{}' to the C++ type '{}' "
++                                      "in the construction of the return value of an event callback",
++                                      heypy::str(heypy::type(ret)), boost::core::demangle(typeid(Ret).name())))
++                             .c_str());
+             }
+         }
+     }
+@@ -163,21 +162,21 @@ template <typename T, bool B>
+ void expose_taylor_nt_event_impl(py::module &m, const std::string &suffix)
+ {
+     using namespace pybind11::literals;
+-    using fmt::literals::operator""_format;
+     namespace kw = hey::kw;
+ 
+     using ev_t = std::conditional_t<B, hey::nt_event_batch<T>, hey::nt_event<T>>;
+     using callback_t = std::conditional_t<B, ev_callback<void, hey::taylor_adaptive_batch<T> &, T, int, std::uint32_t>,
+                                           ev_callback<void, hey::taylor_adaptive<T> &, T, int>>;
+ 
+-    const auto name = B ? "_nt_event_batch_{}"_format(suffix) : "_nt_event_{}"_format(suffix);
++    const auto name = B ? fmt::format("_nt_event_batch_{}", suffix) : fmt::format("_nt_event_{}", suffix);
+ 
+     py::class_<ev_t>(m, name.c_str(), py::dynamic_attr{})
+         .def(py::init([](const hey::expression &ex, py::object callback, hey::event_direction dir) {
+                  if (!heypy::callable(callback)) {
+                      heypy::py_throw(
+                          PyExc_TypeError,
+-                         "An object of type '{}' cannot be used as an event callback because it is not callable"_format(
++                         fmt::format(
++                             "An object of type '{}' cannot be used as an event callback because it is not callable",
+                              heypy::str(heypy::type(callback)))
+                              .c_str());
+                  }
+@@ -227,7 +226,6 @@ template <typename T, bool B>
+ void expose_taylor_t_event_impl(py::module &m, const std::string &suffix)
+ {
+     using namespace pybind11::literals;
+-    using fmt::literals::operator""_format;
+     namespace kw = hey::kw;
+ 
+     using ev_t = std::conditional_t<B, hey::t_event_batch<T>, hey::t_event<T>>;
+@@ -235,7 +233,7 @@ void expose_taylor_t_event_impl(py::module &m, const std::string &suffix)
+         = std::conditional_t<B, ev_callback<bool, hey::taylor_adaptive_batch<T> &, bool, int, std::uint32_t>,
+                              ev_callback<bool, hey::taylor_adaptive<T> &, bool, int>>;
+ 
+-    const auto name = B ? "_t_event_batch_{}"_format(suffix) : "_t_event_{}"_format(suffix);
++    const auto name = B ? fmt::format("_t_event_batch_{}", suffix) : fmt::format("_t_event_{}", suffix);
+ 
+     py::class_<ev_t>(m, name.c_str(), py::dynamic_attr{})
+         .def(
+@@ -246,7 +244,8 @@ void expose_taylor_t_event_impl(py::module &m, const std::string &suffix)
+                     if (!heypy::callable(callback)) {
+                         heypy::py_throw(
+                             PyExc_TypeError,
+-                            "An object of type '{}' cannot be used as an event callback because it is not callable"_format(
++                            fmt::format(
++                                "An object of type '{}' cannot be used as an event callback because it is not callable",
+                                 heypy::str(heypy::type(callback)))
+                                 .c_str());
+                     }
+diff --git a/heyoka/taylor_expose_integrator.cpp b/heyoka/taylor_expose_integrator.cpp
+index 1400ed1..7ff349d 100644
+--- a/heyoka/taylor_expose_integrator.cpp
++++ b/heyoka/taylor_expose_integrator.cpp
+@@ -151,7 +151,6 @@ template <typename T>
+ void expose_taylor_integrator_impl(py::module &m, const std::string &suffix)
+ {
+     using namespace pybind11::literals;
+-    using fmt::literals::operator""_format;
+     namespace kw = heyoka::kw;
+ 
+     using t_ev_t = hey::t_event<T>;
+@@ -178,7 +177,7 @@ void expose_taylor_integrator_impl(py::module &m, const std::string &suffix)
+                                        kw::nt_events = std::move(ntes)};
+     };
+ 
+-    py::class_<hey::taylor_adaptive<T>> cl(m, ("_taylor_adaptive_{}"_format(suffix)).c_str(), py::dynamic_attr{});
++    py::class_<hey::taylor_adaptive<T>> cl(m, (fmt::format("_taylor_adaptive_{}", suffix)).c_str(), py::dynamic_attr{});
+     cl.def(py::init([ctor_impl](const std::vector<std::pair<hey::expression, hey::expression>> &sys,
+                                 std::vector<T> state, T time, std::vector<T> pars, T tol, bool high_accuracy,
+                                 bool compact_mode, std::vector<t_ev_t> tes, std::vector<nt_ev_t> ntes) {
+@@ -306,7 +305,6 @@ void expose_taylor_integrator_ldbl(py::module &m)
+ void expose_taylor_integrator_f128(py::module &m)
+ {
+     using namespace pybind11::literals;
+-    using fmt::literals::operator""_format;
+     namespace kw = heyoka::kw;
+ 
+     using t_ev_t = hey::t_event<mppp::real128>;
+@@ -396,11 +394,11 @@ void expose_taylor_integrator_f128(py::module &m)
+         .def("set_state",
+              [](hey::taylor_adaptive<mppp::real128> &ta, const std::vector<mppp::real128> &v) {
+                  if (v.size() != ta.get_state().size()) {
+-                     heypy::py_throw(PyExc_ValueError,
+-                                     "Invalid state vector passed to set_state(): "
+-                                     "the new state vector has a size of {}, "
+-                                     "but the size should be {} instead"_format(v.size(), ta.get_state().size())
+-                                         .c_str());
++                     heypy::py_throw(PyExc_ValueError, fmt::format("Invalid state vector passed to set_state(): "
++                                                                   "the new state vector has a size of {}, "
++                                                                   "but the size should be {} instead",
++                                                                   v.size(), ta.get_state().size())
++                                                           .c_str());
+                  }
+ 
+                  std::copy(v.begin(), v.end(), ta.get_state_data());
+@@ -410,11 +408,12 @@ void expose_taylor_integrator_f128(py::module &m)
+         .def("set_pars",
+              [](hey::taylor_adaptive<mppp::real128> &ta, const std::vector<mppp::real128> &v) {
+                  if (v.size() != ta.get_pars().size()) {
+-                     heypy::py_throw(PyExc_ValueError,
+-                                     "Invalid pars vector passed to set_pars(): "
+-                                     "the new pars vector has a size of {}, but the size should be {} instead"_format(
+-                                         v.size(), ta.get_pars().size())
+-                                         .c_str());
++                     heypy::py_throw(
++                         PyExc_ValueError,
++                         fmt::format("Invalid pars vector passed to set_pars(): "
++                                     "the new pars vector has a size of {}, but the size should be {} instead",
++                                     v.size(), ta.get_pars().size())
++                             .c_str());
+                  }
+ 
+                  std::copy(v.begin(), v.end(), ta.get_state_data());
