@@ -33,8 +33,10 @@ requirements:
     # thus it is better to keep the versions explicitly
     # in sync for now.
     # NOTE: use heyoka built against LLVM 11 for
-    # compatibility with numba.
-    - heyoka-llvm-11 >=0.16.0
+    # compatibility with numba. On Windows, we don't
+    # have any LLVM 11 build available unfortunately.
+    - heyoka-llvm-11 >=0.16.0  # [not win]
+    - heyoka-llvm-12 >=0.16.0  # [win]
     - boost-cpp
     - fmt
     - spdlog
