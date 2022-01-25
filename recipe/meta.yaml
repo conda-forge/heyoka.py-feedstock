@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -32,11 +32,7 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    # NOTE: use heyoka built against LLVM 11 for
-    # compatibility with numba. On Windows, we don't
-    # have any LLVM 11 build available unfortunately.
-    - heyoka-llvm-11 >=0.16.0  # [not win]
-    - heyoka-llvm-12 >=0.16.0  # [win]
+    - heyoka-llvm-13 >=0.17.0
     - boost-cpp
     - fmt
     - spdlog
