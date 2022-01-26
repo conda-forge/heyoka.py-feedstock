@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   build:
@@ -34,8 +34,10 @@ requirements:
     # in sync for now.
     - heyoka-llvm-13 >=0.17.0
     - boost-cpp
-    - fmt
-    - spdlog
+    # NOTE: pin fmt/spdlog versions
+    # so that there is only one version of fmt.
+    - fmt =8.0.*
+    - spdlog =1.9.2
     - numpy
     - mppp  # [linux and (x86 or ppc64le)]
     - gmp   # [linux and (x86 or ppc64le)]
