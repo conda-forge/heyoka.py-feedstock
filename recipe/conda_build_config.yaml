@@ -1,4 +1,4 @@
 c_compiler_version:            # [linux]
-  - 10                         # [linux]
+  - 11                         # [linux]
 cxx_compiler_version:          # [linux]
-  - 10                         # [linux]
+  - 11                         # [linux]
