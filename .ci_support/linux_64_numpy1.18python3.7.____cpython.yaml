@@ -16,8 +16,6 @@ cxx_compiler_version:
 - '10'
 docker_image:
 - quay.io/condaforge/linux-anvil-cos7-x86_64
-fmt:
-- '8'
 gmp:
 - '6'
 mpfr:
@@ -38,8 +36,6 @@ pybind11_abi:
 - '4'
 python:
 - 3.7.* *_cpython
-spdlog:
-- '1.9'
 target_platform:
 - linux-64
 zip_keys:
