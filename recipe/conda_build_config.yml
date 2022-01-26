@@ -1,4 +1,6 @@
-c_compiler:                    # [win]
+c_compiler:                    # [win or linux]
 - vs2019                       # [win]
-cxx_compiler:                  # [win]
+- gcc =10.*                    # [linux]
+cxx_compiler:                  # [win or linux]
 - vs2019                       # [win]
+- gxx =10.*                    # [linux]
