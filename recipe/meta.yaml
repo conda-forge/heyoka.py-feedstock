@@ -24,8 +24,6 @@ requirements:
     - {{ compiler('cxx') }}
     - {{ compiler('c') }}
     - make       # [unix]
-    - gcc =10.*  # [linux]
-    - gxx =10.*  # [linux]
   host:
     - python
     - pybind11
