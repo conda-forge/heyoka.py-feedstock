@@ -32,12 +32,11 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka-llvm-13 >=0.17.1
+    - heyoka-llvm-14 >=0.18.0
     - boost-cpp
-    # NOTE: pin fmt/spdlog versions
-    # so that there is only one version of fmt.
-    - fmt =8.0.*
-    - spdlog =1.9.2
+    - tbb-devel
+    # NOTE: keep fmt version in sync with heyoka for now.
+    - fmt =8.1.*
     - numpy
     - mppp  # [linux and (x86 or ppc64le)]
     - gmp   # [linux and (x86 or ppc64le)]
