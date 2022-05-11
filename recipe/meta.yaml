@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "0.17.0" %}
-{% set sha256 = "4765162bef944c7365ebbb69fe580cf76e65a5744e1a4bb657b84cd396a6f3c3" %}
+{% set version = "0.18.0" %}
+{% set sha256 = "88082a64dedac71f08f1222d8659befe14edcdcff01158e9a99fcc534d11b97a" %}
 
 package:
   name: {{ name|lower }}
@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 4
+  number: 0
 
 requirements:
   build:
@@ -32,12 +32,11 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka-llvm-13 >=0.17.1
+    - heyoka-llvm-14 >=0.18.0
     - boost-cpp
-    # NOTE: pin fmt/spdlog versions
-    # so that there is only one version of fmt.
-    - fmt =8.0.*
-    - spdlog =1.9.2
+    - tbb-devel
+    # NOTE: keep fmt version in sync with heyoka for now.
+    - fmt =8.1.*
     - numpy
     - mppp  # [linux and (x86 or ppc64le)]
     - gmp   # [linux and (x86 or ppc64le)]
