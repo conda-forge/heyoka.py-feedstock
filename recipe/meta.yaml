@@ -16,7 +16,7 @@ build:
 
 requirements:
   build:
-    - python >=3.8                           # [build_platform != target_platform]
+    - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
     - pybind11 >=2.10                        # [build_platform != target_platform]
@@ -25,7 +25,7 @@ requirements:
     - {{ compiler('c') }}
     - make       # [unix]
   host:
-    - python >=3.8
+    - python
     - pybind11 >=2.10
     - pybind11-abi
     # NOTE: at this time, both heyoka and heyoka.py
@@ -44,7 +44,7 @@ requirements:
   run:
     - {{ pin_compatible('boost-cpp', max_pin='x.x') }}
     - {{ pin_compatible('numpy') }}
-    - python >=3.8
+    - python
     - mpmath  # [linux and (x86 or ppc64le)]
     - sympy
     - cloudpickle
