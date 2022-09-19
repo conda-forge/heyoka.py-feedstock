@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "0.19.0" %}
-{% set sha256 = "5191a6976fe89f14c6cde0d69607397db059009fecb0a3390c4b33c29e5d31ea" %}
+{% set version = "0.18.0" %}
+{% set sha256 = "88082a64dedac71f08f1222d8659befe14edcdcff01158e9a99fcc534d11b97a" %}
 
 package:
   name: {{ name|lower }}
@@ -12,27 +12,27 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 2
 
 requirements:
   build:
     - python                                 # [build_platform != target_platform]
     - cross-python_{{ target_platform }}     # [build_platform != target_platform]
     - numpy                                  # [build_platform != target_platform]
-    - pybind11 >=2.10                        # [build_platform != target_platform]
-    - cmake >=3.16
+    - pybind11                               # [build_platform != target_platform]
+    - cmake
     - {{ compiler('cxx') }}
     - {{ compiler('c') }}
     - make       # [unix]
   host:
     - python
-    - pybind11 >=2.10
+    - pybind11
     - pybind11-abi
     # NOTE: at this time, both heyoka and heyoka.py
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka-llvm-14 >=0.19.0
+    - heyoka-llvm-14 >=0.18.0
     - boost-cpp
     - tbb-devel
     # NOTE: keep fmt version in sync with heyoka for now.
