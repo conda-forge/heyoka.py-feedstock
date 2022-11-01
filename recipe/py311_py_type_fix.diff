@@ -1,0 +1,37 @@
+diff --git a/heyoka/common_utils.hpp b/heyoka/common_utils.hpp
+index 38edf76..0fc2367 100644
+--- a/heyoka/common_utils.hpp
++++ b/heyoka/common_utils.hpp
+@@ -22,6 +22,19 @@
+ 
+ #include <heyoka/number.hpp>
+ 
++// NOTE: implementation of Py_SET_TYPE() for Python < 3.9. See:
++// https://docs.python.org/3.11/whatsnew/3.11.html
++
++#if PY_VERSION_HEX < 0x030900A4 && !defined(Py_SET_TYPE)
++
++static inline void _Py_SET_TYPE(PyObject *ob, PyTypeObject *type)
++{
++    ob->ob_type = type;
++}
++#define Py_SET_TYPE(ob, type) _Py_SET_TYPE((PyObject *)(ob), type)
++
++#endif
++
+ namespace heyoka_py
+ {
+ 
+diff --git a/heyoka/expose_real128.cpp b/heyoka/expose_real128.cpp
+index 9856ce3..70a9f26 100644
+--- a/heyoka/expose_real128.cpp
++++ b/heyoka/expose_real128.cpp
+@@ -1229,7 +1229,7 @@ void expose_real128(py::module_ &m)
+     // detail::npy_py_real128_arr_funcs.scalarkind = [](void *) -> int { return NPY_FLOAT_SCALAR; };
+ 
+     // Register the NumPy data type.
+-    Py_TYPE(&detail::npy_py_real128_descr) = &PyArrayDescr_Type;
++    Py_SET_TYPE(&detail::npy_py_real128_descr, &PyArrayDescr_Type);
+     npy_registered_py_real128 = PyArray_RegisterDataType(&detail::npy_py_real128_descr);
+     if (npy_registered_py_real128 < 0) {
+         py_throw(PyExc_TypeError, "Could not register the real128 type in NumPy");
