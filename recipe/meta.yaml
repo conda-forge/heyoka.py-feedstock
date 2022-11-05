@@ -14,7 +14,7 @@ source:
     - py311_py_type_fix.diff
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   build:
@@ -37,8 +37,7 @@ requirements:
     - heyoka-llvm-14 >=0.19.0
     - boost-cpp
     - tbb-devel
-    # NOTE: keep fmt version in sync with heyoka for now.
-    - fmt =8.1.*
+    - fmt
     - numpy
     - mppp  # [linux and (x86 or ppc64le)]
     - gmp   # [linux and (x86 or ppc64le)]
