@@ -39,7 +39,8 @@ requirements:
     - fmt
     - numpy >=1.22
     - mppp >=0.27
-    - gmp
+    - gmp   # [unix]
+    - mpir  # [win]
     - mpfr
   run:
     - {{ pin_compatible('boost-cpp', max_pin='x.x') }}
