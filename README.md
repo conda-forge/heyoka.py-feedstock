@@ -1,11 +1,11 @@
-About heyoka.py
-===============
+About heyoka.py-feedstock
+=========================
+
+Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/heyoka.py-feedstock/blob/main/LICENSE.txt)
 
 Home: https://bluescarni.github.io/heyoka.py/
 
 Package license: MPL-2.0
-
-Feedstock license: [BSD-3-Clause](https://github.com/conda-forge/heyoka.py-feedstock/blob/main/LICENSE.txt)
 
 Summary: Python library for ODE integration via Taylor's method and LLVM
 
