@@ -32,8 +32,7 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka-llvm-14 =1.0.*  # [win]
-    - heyoka-llvm-16 =1.0.*  # [not win]
+    - heyoka-llvm-16 =2.0.*
     - boost-cpp >=1.69
     - tbb-devel
     - fmt
