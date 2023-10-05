@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 2
 
 requirements:
   build:
@@ -33,7 +33,7 @@ requirements:
     # thus it is better to keep the versions explicitly
     # in sync for now.
     - heyoka-llvm-16 =2.0.*
-    - boost-cpp >=1.69
+    - libboost-devel
     - tbb-devel
     - fmt
     - numpy >=1.22
@@ -42,7 +42,6 @@ requirements:
     - mpir  # [win]
     - mpfr
   run:
-    - {{ pin_compatible('boost-cpp', max_pin='x.x') }}
     - {{ pin_compatible('numpy') }}
     - python
     - mpmath
