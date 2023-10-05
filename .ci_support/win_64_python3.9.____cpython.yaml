@@ -8,6 +8,8 @@ cxx_compiler:
 - vs2019
 fmt:
 - '10'
+libboost_devel:
+- '1.82'
 mpfr:
 - '4'
 pin_run_as_build:
