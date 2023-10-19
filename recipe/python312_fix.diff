@@ -1,0 +1,31 @@
+diff --git a/heyoka/expose_real.cpp b/heyoka/expose_real.cpp
+index 5ddd04c..c8a4d08 100644
+--- a/heyoka/expose_real.cpp
++++ b/heyoka/expose_real.cpp
+@@ -399,11 +399,26 @@ std::optional<mppp::real> py_int_to_real(PyObject *arg)
+         auto *nptr = reinterpret_cast<PyLongObject *>(arg);
+ 
+         // Get the signed size of nptr.
++#if PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION <= 11
+         const auto ob_size = nptr->ob_base.ob_size;
++#else
++        // NOTE: the shift value of 3 comes from here:
++        // https://github.com/python/cpython/blob/main/Include/internal/pycore_long.h
++        // Not sure if we can rely on this moving on, probably needs to be checked
++        // at every new Python release. Also, note that lv_tag is unsigned, so
++        // here we are always getting directly the absolute value of the size,
++        // unlike in Python<3.12 where we get out a signed size. Hence, the
++        // cast to abs_ob_size below is not needed any more.
++        const auto ob_size = nptr->long_value.lv_tag >> 3;
++#endif
+         assert(ob_size != 0);
+ 
+         // Get the limbs array.
++#if PY_MAJOR_VERSION == 3 && PY_MINOR_VERSION <= 11
+         const auto *ob_digit = nptr->ob_digit;
++#else
++        const auto *ob_digit = nptr->long_value.ob_digit;
++#endif
+ 
+         // Is it negative?
+         const auto neg = ob_size < 0;
