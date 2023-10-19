@@ -10,9 +10,11 @@ source:
   fn: {{ name }}-{{ version }}.tar.gz
   url: https://github.com/bluescarni/{{ name }}/archive/v{{ version }}.tar.gz
   sha256: {{ sha256 }}
+  patches:
+    - python312_fix.diff
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
