@@ -10,4 +10,4 @@ cmake ^
     -DBoost_NO_BOOST_CMAKE=ON ^
     ..
 
-cmake --build . --config Release --target install
+cmake --build . --config Release --target install -j%CPU_COUNT%
