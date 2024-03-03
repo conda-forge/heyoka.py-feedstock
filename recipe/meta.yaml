@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "3.2.0" %}
-{% set sha256 = "2e35a4a8932711bd6173f8becd68c6ca86106b6fbdd3eaff76bd7c216daa956c" %}
+{% set version = "4.0.0" %}
+{% set sha256 = "2b26e0c680e19937ef4fb0d1ad8b757b80b58b154d9705d0a36c2d64b094af13" %}
 
 package:
   name: {{ name|lower }}
@@ -32,12 +32,12 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka-llvm-17 =3.2.*
-    - libboost-devel
+    - heyoka-llvm-17 =4.*
+    - libboost-devel >=1.69
     - tbb-devel
-    - fmt
+    - fmt >=9,<11
     - numpy >=1.22
-    - mppp >=0.27
+    - mppp =1.*
     - gmp   # [unix]
     - mpir  # [win]
     - mpfr
