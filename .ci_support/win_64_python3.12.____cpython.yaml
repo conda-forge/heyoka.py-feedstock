@@ -13,7 +13,7 @@ cxx_compiler:
 fmt:
 - '10'
 libboost_devel:
-- '1.82'
+- '1.84'
 mpfr:
 - '4'
 pin_run_as_build:
