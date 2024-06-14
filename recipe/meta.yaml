@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "4.0.0" %}
-{% set sha256 = "2b26e0c680e19937ef4fb0d1ad8b757b80b58b154d9705d0a36c2d64b094af13" %}
+{% set version = "5.0.0" %}
+{% set sha256 = "b0759366eba2b733958a3d22c92ebf79e76bf663366e1a3220ab08b4ebf98114" %}
 
 package:
   name: {{ name|lower }}
@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
