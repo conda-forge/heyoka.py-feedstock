@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 0
+  number: 1
 
 requirements:
   build:
@@ -36,7 +36,9 @@ requirements:
     # in sync for now.
     - heyoka-llvm-18 =5.*
     - libboost-devel >=1.69
-    - tbb-devel
+    # NOTE: pin due to this bug:
+    # https://github.com/oneapi-src/oneTBB/issues/1417
+    - tbb-devel =2021.10.0
     - fmt >=9,<11
     - numpy <2
     - mppp =1.*
