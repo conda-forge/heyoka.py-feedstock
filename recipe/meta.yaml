@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "5.0.1" %}
-{% set sha256 = "5a2b71ace5b17215e755512147d1967fed8a7108dac1c40cebec8074f90d1542" %}
+{% set version = "5.1.0" %}
+{% set sha256 = "8e0f4adeb5fc2652d6bd9cd31605e5807ecd6c58096a7d1f3623d864c0dbdcac" %}
 
 package:
   name: {{ name|lower }}
@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
@@ -34,7 +34,7 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka-llvm-18 =5.*
+    - heyoka-llvm-18 =5.1.*
     - libboost-devel >=1.69
     # NOTE: pin due to this bug:
     # https://github.com/oneapi-src/oneTBB/issues/1417
@@ -49,9 +49,10 @@ requirements:
     - {{ pin_compatible('numpy') }}
     - python
     - mpmath
-    # NOTE: this needs to be removed in the
-    # next version.
-    - sympy <1.13.0
+    # NOTE: the way SymPy deals with floating-point numbers
+    # has slightly changed in 1.13.0, which required changes
+    # in heyoka as well.
+    - sympy >=1.13.0
     - cloudpickle
 
 about:
