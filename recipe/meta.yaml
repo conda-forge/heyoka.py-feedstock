@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 2
+  number: 3
 
 requirements:
   build:
@@ -39,7 +39,7 @@ requirements:
     - numpy >=1.22
     - mppp >=0.27
     - gmp   # [unix]
-    - mpir  # [win]
+    - gmp  # [win]
     - mpfr
   run:
     - {{ pin_compatible('numpy') }}
