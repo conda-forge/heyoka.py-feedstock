@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "5.1.0" %}
-{% set sha256 = "8e0f4adeb5fc2652d6bd9cd31605e5807ecd6c58096a7d1f3623d864c0dbdcac" %}
+{% set version = "6.0.0" %}
+{% set sha256 = "63af3b3d3b40d449323740d61dff374f3e628147056bfaa7f1d27d0c911281bf" %}
 
 package:
   name: {{ name|lower }}
@@ -34,12 +34,10 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka-llvm-18 =5.1.*
-    - libboost-devel >=1.69
-    # NOTE: pin due to this bug:
-    # https://github.com/oneapi-src/oneTBB/issues/1417
-    - tbb-devel =2021.10.0
-    - fmt >=9,<11
+    - heyoka-llvm-19 =6.0.*
+    - libboost-devel
+    - tbb-devel
+    - fmt
     - numpy <2
     - mppp =1.*
     - gmp   # [unix]

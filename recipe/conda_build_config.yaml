@@ -1,0 +1,8 @@
+# NOTE: pin clang to version 16 on OSX x86_64
+# for the time being due to an ABI incompatibility
+# in Boost most likely arising from a compiler version
+# mismatch.
+c_compiler_version:        # [osx and x86_64]
+  - 16                     # [osx and x86_64]
+cxx_compiler_version:      # [osx and x86_64]
+  - 16                     # [osx and x86_64]
