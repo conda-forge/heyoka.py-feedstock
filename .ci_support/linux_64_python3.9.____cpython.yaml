@@ -26,8 +26,6 @@ libboost_devel:
 - '1.86'
 mpfr:
 - '4'
-numpy:
-- '1.22'
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -37,11 +35,9 @@ pybind11_abi:
 python:
 - 3.9.* *_cpython
 target_platform:
-- linux-ppc64le
+- linux-64
 tbb_devel:
 - '2021'
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - python
-  - numpy
