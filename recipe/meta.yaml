@@ -43,7 +43,7 @@ requirements:
     - gmp
     - mpfr
   run:
-    - {{ pin_compatible('numpy') }}
+    - numpy =2.*
     - python
     - mpmath
     # NOTE: the way SymPy deals with floating-point numbers
