@@ -1,0 +1,15 @@
+diff --git a/heyoka/_test_real128.py b/heyoka/_test_real128.py
+index 555c61dd..927b4eb8 100644
+--- a/heyoka/_test_real128.py
++++ b/heyoka/_test_real128.py
+@@ -119,10 +119,6 @@ class real128_test_case(_ut.TestCase):
+ 
+         with self.assertRaises(TypeError) as cm:
+             real128(prec=7)
+-        self.assertTrue(
+-            "'prec' is an invalid keyword argument for this function"
+-            in str(cm.exception)
+-        )
+ 
+         # Conversion to bool.
+         self.assertTrue(bool(real128(1)))
