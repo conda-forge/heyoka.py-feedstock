@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "7.0.0" %}
-{% set sha256 = "51b6a75aaa96d31e9cfbe04d011bb260cefcf9e50e80130a1265c696a6f49c0d" %}
+{% set version = "7.0.1" %}
+{% set sha256 = "d23dccef280e414496221fd84568195ddcb07198207cb7d0d9253a0018cc5c04" %}
 
 package:
   name: {{ name|lower }}
@@ -14,7 +14,7 @@ source:
     - py313_fix.diff
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
