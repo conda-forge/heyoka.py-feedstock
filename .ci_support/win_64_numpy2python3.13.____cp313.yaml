@@ -16,6 +16,10 @@ libboost_devel:
 - '1.86'
 mpfr:
 - '4'
+mppp:
+- '2.0'
+numpy:
+- '2'
 pin_run_as_build:
   python:
     min_pin: x.x
@@ -28,3 +32,6 @@ target_platform:
 - win-64
 tbb_devel:
 - '2021'
+zip_keys:
+- - python
+  - numpy
