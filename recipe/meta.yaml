@@ -1,6 +1,6 @@
 {% set name = "heyoka.py" %}
-{% set version = "7.2.2" %}
-{% set sha256 = "d214aaf9ff28779ff168613621fc1fbbb014838177f8a3959969bf7d31314691" %}
+{% set version = "7.3.2" %}
+{% set sha256 = "4685e7b7326649e991936544ce9480415cb6c1ce5f1b45927f0cdf4b9b10914b" %}
 
 package:
   name: {{ name|lower }}
@@ -12,7 +12,7 @@ source:
   sha256: {{ sha256 }}
 
 build:
-  number: 1
+  number: 0
 
 requirements:
   build:
@@ -34,7 +34,7 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka-llvm-19 =7.2.*
+    - heyoka-llvm-20 =7.3.*
     - libboost-devel
     - tbb-devel
     - fmt
