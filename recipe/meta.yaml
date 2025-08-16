@@ -34,7 +34,7 @@ requirements:
     # are rapidly evolving with frequent API changes,
     # thus it is better to keep the versions explicitly
     # in sync for now.
-    - heyoka-llvm-20 =7.3.*
+    - heyoka =7.4.*
     - libboost-devel
     - tbb-devel
     - fmt
