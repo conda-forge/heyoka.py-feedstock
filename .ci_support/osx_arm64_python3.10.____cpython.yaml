@@ -19,7 +19,7 @@ cxx_compiler:
 cxx_compiler_version:
 - '19'
 fmt:
-- '11.2'
+- '12.0'
 gmp:
 - '6'
 libboost_devel:
@@ -47,5 +47,3 @@ tbb_devel:
 zip_keys:
 - - c_compiler_version
   - cxx_compiler_version
-- - python
-  - channel_sources
