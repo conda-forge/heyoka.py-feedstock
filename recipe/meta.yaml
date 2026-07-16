@@ -51,6 +51,10 @@ requirements:
     - sympy >=1.13.0
     - cloudpickle
 
+test:
+  requires:
+    - pytest
+
 about:
   home: https://bluescarni.github.io/heyoka.py/
   license: MPL-2.0
