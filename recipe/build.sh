@@ -15,9 +15,12 @@ fi
 mkdir build
 cd build
 
+echo "PYTHON env variable: $PYTHON"
+
 cmake -G Ninja ${CMAKE_ARGS} \
     -DCMAKE_BUILD_TYPE=Release \
     -DPython3_EXECUTABLE=$PYTHON \
+    -DPython3_NumPy_INCLUDE_DIR=`$PYTHON -c "import numpy as np;print(np.get_include())"` \
     -DCMAKE_INSTALL_PREFIX=$PREFIX \
     -DCMAKE_PREFIX_PATH=$PREFIX \
     -DHEYOKA_PY_ENABLE_IPO=$ENABLE_IPO \
