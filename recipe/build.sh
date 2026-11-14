@@ -17,7 +17,6 @@ cd build
 
 cmake -G Ninja ${CMAKE_ARGS} \
     -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_REQUIRE_FIND_PACKAGE_Python3=ON \
     -DPython3_EXECUTABLE="$PYTHON" \
     -DPython3_INCLUDE_DIR="$("$PYTHON" -c 'import sysconfig; print(sysconfig.get_path("include"))')" \
     -DPython3_NumPy_INCLUDE_DIR="$("$PYTHON" -c 'import numpy as np; print(np.get_include())')" \
