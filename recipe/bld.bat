@@ -3,7 +3,7 @@ cd build
 
 cmake ^
     -G "Visual Studio 17 2022" -A x64 ^
-    -DPython3_EXECUTABLE=%PREFIX%\python.exe ^
+    -DPython3_EXECUTABLE=%PYTHON% ^
     -DCMAKE_PREFIX_PATH=%LIBRARY_PREFIX% ^
     -DCMAKE_INSTALL_PREFIX=%LIBRARY_PREFIX% ^
     -DHEYOKA_PY_ENABLE_IPO=yes ^
